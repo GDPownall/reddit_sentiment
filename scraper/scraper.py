@@ -13,7 +13,7 @@ reddit = praw.Reddit(client_id = read_client_id['client_id'], client_secret=read
 
 
 subreddit = reddit.subreddit('AmITheAsshole')
-hot = subreddit.hot(limit=100000)
+hot = subreddit.hot(limit=int(read_client_id['number_of_posts']))
 
 posts = []
 for post in hot:
