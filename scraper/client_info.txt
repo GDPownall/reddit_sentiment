@@ -1,0 +1,3 @@
+client_id:3pFPt9kyftktJg
+client_secret:hGig4n4FYDhvXuJrmEZUwjA0JpY
+user_agent:reddit_scraper
