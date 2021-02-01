@@ -13,21 +13,21 @@ reddit = praw.Reddit(client_id = read_client_id['client_id'], client_secret=read
 
 
 subreddit = reddit.subreddit('AmITheAsshole')
-hot = subreddit.hot(limit=int(read_client_id['number_of_posts']))
+hot = subreddit.top(limit=int(read_client_id['number_of_posts']))
 
 posts = []
+n = 0
 for post in hot:
-    if post.link_flair_text in ['META','Open Forum',None,'None','UPDATE','TL;DR']:continue
+    n += 1
+    if post.link_flair_text in ['META','Open Forum',None,'None','UPDATE','TL;DR','Update']:continue
     posts.append([
         post.title, post.id, post.selftext, post.created, post.link_flair_text]
         )
-
+print(n)
 
 df = pd.DataFrame(posts, columns = ['title','id','body','created','flair'])
 
 df.set_index('id',inplace=True)
-one_hot = pd.get_dummies(df['flair'])
-df = df.join(one_hot)
 print (df.head())
 
 df.to_pickle('stored_df.pkl')
