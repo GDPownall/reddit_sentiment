@@ -11,4 +11,11 @@ class Data:
         one_hot = pd.get_dummies(self.df.flair)
         self.df = self.df.join(one_hot)
 
+    def plot_flairs(self):
+        groups = self.df.flair.value_counts()
+        print(groups)
+        groups.plot.bar()
 
+if __name__ == '__main__':
+    x = Data()
+    x.plot_flairs()
