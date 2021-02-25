@@ -40,7 +40,13 @@ df = pd.concat([dfs[x] for x in dfs.keys()]).drop_duplicates()
 for cat in cats:
     df[cat] = df.index.isin(dfs[cat].index).astype(int)
 
-
+print('Read ',len(df),'posts.')
 print (df.head())
-print(len(df))
-df.to_pickle('stored_df.pkl')
+
+try: 
+    old = pd.read_pickle('stored_df.pkl')
+    new = pd.concat([old,df]).drop_duplicates()
+    print('Old dataframe contained',len(old),'posts. Total unique posts:',len(new))
+    new.to_pickle('stored_df.pkl')
+except OSError:
+    df.to_pickle('stored_df.pkl')

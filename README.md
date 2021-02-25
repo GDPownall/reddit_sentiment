@@ -19,10 +19,12 @@ user_agent:your_user_agent
 number_of_posts:number_of_posts_to_scrape
 ```
 
-Then enter the scraper/ directory and run
+Then enter the src/data/ directory and run the scraper script. 
 
 ```bash
+cd src/scraper
 python3 scraper.py
 ```
 
-...which will store the scraped data as a dataframe. The outcome of each post is stored by one-hot encoding. 
+...which will store the scraped data as a pickled dataframe. The outcome of each post is stored by one-hot encoding. 
+If you run this again at a later date, it will append the new posts to your previous dataframe.
