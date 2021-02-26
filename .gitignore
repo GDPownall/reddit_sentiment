@@ -1,2 +1,4 @@
 scraper/client_info.txt
 scraper/*.pkl
+*.pdf
+*.pyc
