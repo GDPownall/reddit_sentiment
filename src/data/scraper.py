@@ -30,7 +30,7 @@ for cat in cats:
         posts.append([
             post.title, post.id, post.selftext, post.created, post.link_flair_text]
             )
-    print(n)
+    print(cat,n)
 
     dfs[cat] = pd.DataFrame(posts, columns = ['title','id','body','created','flair'])    
     dfs[cat].set_index('id',inplace=True)

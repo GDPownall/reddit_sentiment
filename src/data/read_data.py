@@ -5,6 +5,12 @@ import os
 
 class Data:
     def __init__(self, pkl_path = os.environ['CURRENTDIR']+'/src/data/stored_df.pkl'):
+        if pkl_path == None:
+            try: WKDIR = os.environ['CURRENTDIR']
+            except KeyError: 
+                print('CURRENTDIR not defined. Remember to do source setup.sh.')
+                raise
+            pkl_path = WKDIR+'/src/data/stored_df.pkl'
         self.df = pd.read_pickle(pkl_path)
 
     def one_hot(self):
