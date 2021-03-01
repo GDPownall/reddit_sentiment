@@ -2,6 +2,7 @@
 
 from torch import nn
 from transformers import AdamW, BertModel
+import torch
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
