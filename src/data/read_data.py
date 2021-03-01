@@ -91,6 +91,7 @@ class Data:
     def train_test_split(self):
         if self.split_data != None:
             return 
+        print('Splitting into train and test sets.')
         df_train, df_test = train_test_split(
                 self.df,
                 test_size = 0.1,

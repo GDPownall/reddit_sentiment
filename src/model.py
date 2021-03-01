@@ -34,6 +34,7 @@ def train(model, data, n_epochs=3, batch_size = 32):
     
     for epoch in range(n_epochs):
         epoch_loss = 0
+        print('Epoch number:',epoch)
         for b in range(0, len(train), batch_size):
             input_ids      = train[b:b+batch_size]['input_ids']
             attention_mask = train[b:b+batch_size]['attention_mask']
