@@ -3,6 +3,8 @@
 from torch import nn
 from transformers import AdamW, BertModel
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 class AITAClassifier(nn.Module):
 
     def __init__(self, data):
@@ -25,6 +27,7 @@ class AITAClassifier(nn.Module):
 
 
 def train(model, data, n_epochs=3, batch_size = 32):
+    model.to(device)
     optimizer = AdamW(model.parameters(), lr=2e-5, correct_bias = False)
     loss_fn = nn.CrossEntropyLoss()
 
@@ -36,9 +39,9 @@ def train(model, data, n_epochs=3, batch_size = 32):
         epoch_loss = 0
         print('Epoch number:',epoch)
         for b in range(0, len(train), batch_size):
-            input_ids      = train[b:b+batch_size]['input_ids']
-            attention_mask = train[b:b+batch_size]['attention_mask']
-            targets        = train[b:b+batch_size]['targets']
+            input_ids      = train[b:b+batch_size]['input_ids'].to(device)
+            attention_mask = train[b:b+batch_size]['attention_mask'].to(device)
+            targets        = train[b:b+batch_size]['targets'].to(device)
 
             print(input_ids.shape)
             outputs = model(
