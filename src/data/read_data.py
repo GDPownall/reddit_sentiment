@@ -13,6 +13,7 @@ labels += ['Everyone Sucks', 'No A-holes here']
 class Data:
     def __init__(self, df, pre_trained_model_name = 'bert-base-cased' ):
         self.df = df[df['flair'].isin(labels)]
+        self.df['body'] = self.df['body'].apply(lambda x: ' '.join(x.split()[:600]))
         self.one_hot_encoded = False
         self.split_data = None
 
