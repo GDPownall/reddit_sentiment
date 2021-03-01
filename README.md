@@ -1,11 +1,12 @@
-# reddit_scraper
+# reddit_sentiment
 
 Attempt to use sentiment-analysis machine learning to predict the verdict of the AmITheAsshole subreddit.
-This is a very nice set of data, with crowd-sourced sentiment. However, any models produced probably can't be used anywhere else.
 
-Packages:
-pandas
-praw
+Packages required:
+pandas,
+praw,
+transformers,
+torch.
 
 ## Scraping the data
 
@@ -28,3 +29,7 @@ python3 scraper.py
 
 ...which will store the scraped data as a pickled dataframe. The outcome of each post is stored by one-hot encoding. 
 If you run this again at a later date, it will append the new posts to your previous dataframe.
+
+## Model
+
+The model is built from the pre-trained BERT transformer with a single linear layer to provide the output.
