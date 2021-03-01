@@ -47,6 +47,6 @@ try:
     old = pd.read_pickle('stored_df.pkl')
     new = pd.concat([old,df]).drop_duplicates()
     print('Old dataframe contained',len(old),'posts. Total unique posts:',len(new))
-    new.to_pickle('stored_df.pkl')
+    new.to_pickle('stored_df.pkl',protocol=4)
 except OSError:
-    df.to_pickle('stored_df.pkl')
+    df.to_pickle('stored_df.pkl',protocol=4)
