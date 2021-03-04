@@ -67,8 +67,8 @@ def evaluate(model, data):
 
     with torch.no_grad():
         for dataset in [val,test]:
-            input_ids      = dataset[:]['input_ids']
-            attention_mask = dataset[:]['attention_mask']
+            input_ids      = dataset[:]['input_ids'].to(device)
+            attention_mask = dataset[:]['attention_mask'].to(device)
             targets        = dataset[:]['targets']
 
             outputs = model(
