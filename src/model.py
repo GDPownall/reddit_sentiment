@@ -11,7 +11,7 @@ class AITAClassifier(nn.Module):
 
     def __init__(self, data):
         super(AITAClassifier, self).__init__()
-        self.bert = BertModel.from_pretrained(data.pre_trained_model_name)
+        self.bert = BertForSequenceClassification.from_pretrained(data.pre_trained_model_name)
         self.drop = nn.Dropout(p=0.3)
         self.lin  = nn.Linear(self.bert.config.hidden_size, data.n_classes())
         self.out  = nn.Softmax()
@@ -54,7 +54,7 @@ def train(model, data, n_epochs=3, batch_size = 32, learning_rate = 2e-5):
 
             epoch_loss += loss.item()
             loss.backward()
-            nn.utils.clip_grad_norm_(model.parameters(), max_norm = 1.0)
+            #nn.utils.clip_grad_norm_(model.parameters(), max_norm = 1.0)
             optimizer.step()
             optimizer.zero_grad()
 
