@@ -86,4 +86,6 @@ def evaluate(model, data):
             loss_val = loss.item()
             print('loss:',loss_val)
             print('Confusion matrix:')
+            targets_idx = targets_idx.cpu()
+            preds = preds.cpu()
             print(confusion_matrix(targets_idx,preds))
