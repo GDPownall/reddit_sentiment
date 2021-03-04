@@ -11,7 +11,7 @@ labels = ['Asshole','Not the A-hole']
 labels += ['Everyone Sucks', 'No A-holes here']
 
 class Data:
-    def __init__(self, df, pre_trained_model_name = 'bert-base-cased' ):
+    def __init__(self, df, pre_trained_model_name = 'bert-base-cased', max_len = 100 ):
         self.df = df[df['flair'].isin(labels)]
         self.df['body'] = self.df['body'].apply(lambda x: ' '.join(x.split()[:600]))
         self.one_hot_encoded = False
@@ -19,6 +19,7 @@ class Data:
 
         self.pre_trained_model_name = pre_trained_model_name
         self.tokenizer = BertTokenizer.from_pretrained(pre_trained_model_name)
+        self.max_len = max_len
 
     @classmethod
     def from_pkl(cls, pkl_path = None, pre_trained_model_name = 'bert-base-cased' ): 
@@ -44,6 +45,7 @@ class Data:
                     add_special_tokens=True,
                     return_token_type_ids=False,
                     padding = True,
+                    max_length = self.max_len,
                     truncation = True, 
                     return_attention_mask=True,
                     return_tensors='pt' #pytorch
