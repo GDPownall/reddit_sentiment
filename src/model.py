@@ -27,9 +27,9 @@ class AITAClassifier(nn.Module):
         return self.out(output)
 
 
-def train(model, data, n_epochs=3, batch_size = 32):
+def train(model, data, n_epochs=3, batch_size = 32, learning_rate = 2e-5):
     model = model.to(device)
-    optimizer = AdamW(model.parameters(), lr=2e-5, correct_bias = False)
+    optimizer = AdamW(model.parameters(), lr=learning_rate, correct_bias = False)
     loss_fn = nn.CrossEntropyLoss(weight=torch.FloatTensor(data.one_hot_weights()).to(device))
 
     data.train_test_split()
