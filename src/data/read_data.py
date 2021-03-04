@@ -66,6 +66,15 @@ class Data:
                 'attention_mask': encoding['attention_mask'],
                 'targets': target
                 }
+
+    def one_hot_weights(self):
+        try: target = self.df[labels].to_numpy()
+        except KeyError:
+            print('Have you remembered to one-hot encode the data? Data.one_hot()')
+            raise
+
+        weights = target.sum(axis=0)
+        return 1/weights
  
 
     def one_hot(self):
