@@ -17,11 +17,10 @@ class AITAClassifier(nn.Module):
 
 
     def forward(self, input_ids, attention_mask):
-        _, pooled_output = self.bert(
+        pooled_output = self.bert(
                 input_ids = input_ids,
                 attention_mask = attention_mask
-                )
-
+                ).pooler_output
         dropped = self.drop(pooled_output)
         output  = self.lin(dropped)
         return self.out(output)
@@ -44,14 +43,12 @@ def train(model, data, n_epochs=3, batch_size = 32):
             attention_mask = train[b:b+batch_size]['attention_mask'].to(device)
             targets        = train[b:b+batch_size]['targets']
 
-            print(input_ids.shape)
             outputs = model(
                     input_ids = input_ids,
                     attention_mask = attention_mask
                     )
-
             _, preds = torch.max(outputs, dim=1)
-            loss = loss_fn(outputs, targets)
+            loss = loss_fn(outputs, preds)
 
             epoch_loss += loss.item()
             loss.backward()

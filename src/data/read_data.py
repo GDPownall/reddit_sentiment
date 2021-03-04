@@ -51,7 +51,7 @@ class Data:
                     return_tensors='pt' #pytorch
                 ) 
 
-        try: target = self.df[labels].to_numpy() 
+        try: target = self.df[labels][item].to_numpy() 
         except KeyError: 
             print('Have you remembered to one-hot encode the data? Data.one_hot()')
             raise
