@@ -3,6 +3,7 @@
 from torch import nn
 from transformers import AdamW, BertModel
 import torch
+from sklearn.metrics import confusion_matrix
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -41,14 +42,15 @@ def train(model, data, n_epochs=3, batch_size = 32):
         for b in range(0, len(train), batch_size):
             input_ids      = train[b:b+batch_size]['input_ids'].to(device)
             attention_mask = train[b:b+batch_size]['attention_mask'].to(device)
-            targets        = train[b:b+batch_size]['targets']
+            targets        = torch.FloatTensor(train[b:b+batch_size]['targets']).to(device)
 
             outputs = model(
                     input_ids = input_ids,
                     attention_mask = attention_mask
                     )
             _, preds = torch.max(outputs, dim=1)
-            loss = loss_fn(outputs, preds)
+            _, targets_idx = torch.max(targets, dim=1)
+            loss = loss_fn(outputs, targets_idx)
 
             epoch_loss += loss.item()
             loss.backward()
@@ -69,7 +71,7 @@ def evaluate(model, data):
         for dataset in [val,test]:
             input_ids      = dataset[:]['input_ids'].to(device)
             attention_mask = dataset[:]['attention_mask'].to(device)
-            targets        = dataset[:]['targets']
+            targets        = torch.FloatTensor(dataset[:]['targets']).to(device)
 
             outputs = model(
                     input_ids = input_ids,
@@ -77,8 +79,11 @@ def evaluate(model, data):
                     )
 
             _, preds = torch.max(outputs, dim=1)
+            _, targets_idx = torch.max(targets, dim=1)
 
-            loss = loss_fn(outputs, preds)
+            loss = loss_fn(outputs, targets_idx)
 
             loss_val = loss.item()
             print('loss:',loss_val)
+            print('Confusion matrix:')
+            print(confusion_matrix(targets_idx,preds))
