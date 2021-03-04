@@ -27,7 +27,7 @@ class AITAClassifier(nn.Module):
 
 
 def train(model, data, n_epochs=3, batch_size = 32):
-    model.to(device)
+    model = model.to(device)
     optimizer = AdamW(model.parameters(), lr=2e-5, correct_bias = False)
     loss_fn = nn.CrossEntropyLoss()
 
