@@ -78,7 +78,7 @@ def evaluate(model, data):
 
             _, preds = torch.max(outputs, dim=1)
 
-            loss = loss_fn(outputs, targets)
+            loss = loss_fn(outputs, preds)
 
             loss_val = loss.item()
             print('loss:',loss_val)
