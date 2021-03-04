@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from torch import nn
-from transformers import AdamW, BertModel
+from transformers import AdamW, BertModel, BertForSequenceClassification
 import torch
 from sklearn.metrics import confusion_matrix
 
@@ -13,15 +13,15 @@ class AITAClassifier(nn.Module):
         super(AITAClassifier, self).__init__()
         self.bert = BertForSequenceClassification.from_pretrained(data.pre_trained_model_name)
         self.drop = nn.Dropout(p=0.3)
-        self.lin  = nn.Linear(self.bert.config.hidden_size, data.n_classes())
+        self.lin  = nn.Linear(2, data.n_classes())
         self.out  = nn.Softmax()
 
 
     def forward(self, input_ids, attention_mask):
         pooled_output = self.bert(
                 input_ids = input_ids,
-                attention_mask = attention_mask
-                ).pooler_output
+                attention_mask = attention_mask,
+                ).logits
         dropped = self.drop(pooled_output)
         output  = self.lin(dropped)
         return self.out(output)
