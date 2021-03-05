@@ -11,10 +11,10 @@ class AITAClassifier(nn.Module):
 
     def __init__(self, data):
         super(AITAClassifier, self).__init__()
-        self.bert = BertForSequenceClassification.from_pretrained(data.pre_trained_model_name)
-        self.drop = nn.Dropout(p=0.3)
-        self.lin  = nn.Linear(2, data.n_classes())
-        self.out  = nn.Softmax()
+        self.bert = BertForSequenceClassification.from_pretrained(data.pre_trained_model_name,num_labels = data.n_classes())
+        #self.drop = nn.Dropout(p=0.3)
+        #self.lin  = nn.Linear(2, data.n_classes())
+        #self.out  = nn.Softmax()
 
 
     def forward(self, input_ids, attention_mask):
@@ -22,9 +22,10 @@ class AITAClassifier(nn.Module):
                 input_ids = input_ids,
                 attention_mask = attention_mask,
                 ).logits
-        dropped = self.drop(pooled_output)
-        output  = self.lin(dropped)
-        return self.out(output)
+        #dropped = self.drop(pooled_output)
+        #output  = self.lin(dropped)
+        #return self.out(output)
+        return pooled_output
 
 
 def train(model, data, n_epochs=3, batch_size = 32, learning_rate = 2e-5):
