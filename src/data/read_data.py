@@ -103,15 +103,25 @@ class Data:
         if self.split_data != None:
             return 
         print('Splitting into train and test sets.')
+        # for stratifying
+        label_dict = {}
+        for idx, label in enumerate(labels):
+            label_dict[label] = idx
+        strat = self.df.flair.replace(label_dict).values
+
         df_train, df_test = train_test_split(
                 self.df,
                 test_size = 0.1,
-                random_state = RANDOM_SEED
+                random_state = RANDOM_SEED,
+                stratify = strat
                 )
+        
+        strat2 = df_test.flair.replace(label_dict).values
         df_val, df_test = train_test_split(
                 df_test,
                 test_size = 0.5,
-                random_state = RANDOM_SEED
+                random_state = RANDOM_SEED,
+                stratify = strat2
                 )
         self.split_data = (
                 self.clone_new_df(df_train), 
