@@ -22,7 +22,7 @@ class Data:
         self.max_len = max_len
 
     @classmethod
-    def from_pkl(cls, pkl_path = None, pre_trained_model_name = 'bert-base-cased' ): 
+    def from_pkl(cls, pkl_path = None, pre_trained_model_name = 'bert-base-cased', max_len = 100 ): 
         if pkl_path == None:
             try: WKDIR = os.environ['CURRENTDIR']
             except KeyError:
@@ -30,7 +30,7 @@ class Data:
                 raise
             pkl_path = WKDIR+'/src/data/stored_df.pkl'
         df = pd.read_pickle(pkl_path) # columns ['title', 'body', 'created', 'flair', 'hot', 'top']
-        return cls(df, pre_trained_model_name = pre_trained_model_name)
+        return cls(df, pre_trained_model_name = pre_trained_model_name, max_len = max_len)
 
     def __len__(self):
         return len(self.df)
